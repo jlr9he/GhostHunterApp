@@ -1,27 +1,43 @@
 package com.example.ghosthunter;
 
+import android.R;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;  
 
 public class MainActivity extends Activity {
 
 	 @Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.splash);
+	        setContentView(R.layout.activity_main); 
 	        Thread logoTimer = new Thread(){
-	        	
+	        	public void run(){
+	        		try{
+	        			sleep(5000);
+	        			Intent menuIntent = new Intent("com.example.ghosthunter.MENU");
+	        			startActivity(menuIntent);
+	        		}
+	        		catch (InterruptedException e) {
+	        			e.printStackTrace();
+	        		}
+	        		finally{
+	        			finish();
+	        		}
+	        	}
 	        };
-	    }
-	 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+	        logoTimer.start();
+	    } 
+	
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//    }
 
 
     @Override
