@@ -7,5 +7,6 @@
     <string name="start">Start</string>
     <string name="welcome">Welcome to Ghost Hunter</string>
     <string name="scores">Scores</string>
-
+    <string name="title_activity_splash">Splash</string>
+	<string name="creators">Caroline Holmes, Lakshmi Kopparam, Jack Ross, Scott Patterson</string>
 </resources>

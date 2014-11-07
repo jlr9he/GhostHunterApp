@@ -1,8 +1,7 @@
 package com.example.ghosthunter;
-
-import android.R;
 import android.app.Activity;
 import android.os.Bundle;
+import com.example.ghosthunter.*;
 
 public class menu extends Activity  {
 
