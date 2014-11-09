@@ -14,32 +14,22 @@ public class MainActivity extends Activity {
 	 @Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.activity_splash); 
-	        Thread logoTimer = new Thread(){
-	        	public void run(){
-	        		try{
-	        			sleep(5000);
-	        			Intent menuIntent = new Intent("com.example.ghosthunter.SPLASH");
-	        			startActivity(menuIntent);
-	        		}
-	        		catch (InterruptedException e) {
-	        			e.printStackTrace();
-	        		}
-	        		finally{
-	        			finish();
-	        		}
-	        	}
-	        };
-	        logoTimer.start();
+	        setContentView(R.layout.activity_main); 
 	 }
-}
+//	 
+//	 @Override 
+//	 protected void onCreate(Bundle savedInstanceState) {
+//			super.onCreate(savedInstanceState);
+//			setContentView(R.layout.activity_main);
+//			
+//		}
+//	 
+//		@Override
+//		protected void onPause() {
+//			// TODO Auto-generated method stub
+//			super.onPause();
+//		}
 
-	        
-//	        if (savedInstanceState == null) {
-//	        	getFragmentManager().beginTransaction().add(R.id.container, new PlaceHolderFragment()).commit();
-//	        }
-//	    } 
-//	}
 	
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +38,13 @@ public class MainActivity extends Activity {
 //    }
 //
 //}
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+}
 //
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {

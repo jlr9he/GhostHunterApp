@@ -3,7 +3,7 @@
     android:id = "@+id/container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/homescreen"
+    android:background="@drawable/splashscreen"
     tools:context ="com.example.ghosthunter.MainActivity"
     tools:ignore= "MergeRootFrame"
     android:orientation="vertical" >
