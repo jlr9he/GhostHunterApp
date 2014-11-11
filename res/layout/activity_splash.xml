@@ -6,7 +6,7 @@
     android:background="@drawable/splashscreen"
     tools:context ="com.example.ghosthunter.MainActivity"
     tools:ignore= "MergeRootFrame"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
    
     <TextView
         android:id="@+id/textView1"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context ="com.example.ghosthunter.MainActivity"
     tools:ignore= "MergeRootFrame"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
     <Button
         android:id="@+id/begin_game"
