@@ -1,9 +1,13 @@
 package com.example.ghosthunter;
 
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class GameActivity extends Activity {
 
@@ -31,4 +35,47 @@ public class GameActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	
+	public void updateScore(int score) {
+
+	    TextView textView = (TextView) findViewById(R.id.scoreTextView);
+	    textView.setText(score);
+
+	}
+	
+	/* 
+	 * Data: 11-Nov-14
+	 * @Method: addGhosts
+	 * @Purpose: add ghosts on an interval at random y locations off 
+	 * 			 screen to the right. They will move left
+	 * @Param: none
+	 * @Return none
+	 * 
+	 */
+	
+	public void addGhosts(){
+		
+		//LinearLayOut Setup
+        LinearLayout linearLayout= new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        linearLayout.setLayoutParams(new LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                LayoutParams.MATCH_PARENT));
+
+        //ImageView Setup
+        ImageView imageView = new ImageView(this);
+        //setting image resource
+        imageView.setImageResource(R.drawable.ghost);
+        //setting image position
+        imageView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+
+        //adding view to layout
+        linearLayout.addView(imageView);
+        //make visible to program
+        setContentView(linearLayout);
+		
+	}
+	
 }

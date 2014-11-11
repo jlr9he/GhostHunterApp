@@ -11,8 +11,33 @@
     tools:context="com.example.ghosthunter.GameActivity" >
 
     
-    <!-- Shows an image from your drawable resources -->
+    <!-- Shows images from drawable resources -->
+     
+
     <ImageView
+        android:id="@+id/scorebox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/scorebox" />
+    
+   <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/scorebox"
+        android:layout_alignTop="@+id/scorebox"
+        android:layout_alignRight="@+id/scorebox"
+        android:layout_alignBottom="@+id/scorebox"
+        android:layout_margin="5dp"
+        android:gravity="left"
+        android:text="@string/hello_world" />
+    
+    <ImageView
+        android:id="@+id/spaceship1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
@@ -21,7 +46,8 @@
         android:layout_centerVertical="true"
         android:src="@drawable/spaceship1" />
     
-        <ImageView
+    <ImageView
+        android:id="@+id/ghost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
@@ -30,9 +56,5 @@
         android:layout_centerVertical="true"
         android:src="@drawable/ghost" />
 
-   <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
     
 </RelativeLayout>
