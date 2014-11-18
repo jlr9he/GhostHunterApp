@@ -10,11 +10,14 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.view.*;
 
-public class GameActivity extends Activity implements SensorEventListener {
+public class GameActivity extends Activity implements GestureDetector.OnGestureListener,
+GestureDetector.OnDoubleTapListener {
 	/*
 	 * http://code.tutsplus.com/tutorials/using-the-accelerometer-on-android--mobile
 	 * -22125
@@ -31,11 +34,6 @@ public class GameActivity extends Activity implements SensorEventListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
-		senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		senAccelerometer = senSensorManager
-				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		senSensorManager.registerListener(this, senAccelerometer,
-				SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
 	@Override
@@ -60,14 +58,11 @@ public class GameActivity extends Activity implements SensorEventListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		senSensorManager.unregisterListener(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		senSensorManager.registerListener(this, senAccelerometer,
-				SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
 	public void onSensorChange(SensorEvent sensorEvent) {
@@ -105,7 +100,6 @@ public class GameActivity extends Activity implements SensorEventListener {
 
 		TextView textView = (TextView) findViewById(R.id.scoreTextView);
 		textView.setText(score);
-
 	}
 
 	/*
@@ -146,15 +140,58 @@ public class GameActivity extends Activity implements SensorEventListener {
 	}
 
 	@Override
-	public void onAccuracyChanged(Sensor arg0, int arg1) {
+	public boolean onSingleTapConfirmed(MotionEvent e) {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 	@Override
-	public void onSensorChanged(SensorEvent arg0) {
+	public boolean onDoubleTap(MotionEvent e) {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
+	@Override
+	public boolean onDoubleTapEvent(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onDown(MotionEvent e) {
+		System.out.println("Down");
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY) {
+		System.out.println("Scroll");
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
