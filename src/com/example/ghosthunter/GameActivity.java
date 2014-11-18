@@ -3,6 +3,7 @@ package com.example.ghosthunter;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,6 +56,12 @@ GestureDetector.OnDoubleTapListener {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	 public void topButtonClicked(View button) {
+	    	// Create an intent to associate button clicked with Popup class
+	    	Intent intent = new Intent (this, Popup.class);
+	    	this.startActivity(intent);
+	}	
 
 	@Override
 	protected void onPause() {

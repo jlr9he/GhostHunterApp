@@ -24,18 +24,6 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/scorebox" />
     
-   <TextView
-        android:id="@+id/scoreTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/scorebox"
-        android:layout_alignTop="@+id/scorebox"
-        android:layout_alignRight="@+id/scorebox"
-        android:layout_alignBottom="@+id/scorebox"
-        android:layout_margin="5dp"
-        android:gravity="left"
-        android:text="@string/hello_world" />
-    
     <ImageView
         android:id="@+id/spaceship1"
         android:layout_width="wrap_content"
@@ -56,5 +44,29 @@
         android:layout_centerVertical="true"
         android:src="@drawable/ghost" />
 
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/scorebox"
+        android:layout_alignTop="@+id/scorebox"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="7dp"
+        android:gravity="right"
+        android:text="999,999,999"
+        android:textSize="25dp" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button"
+        android:minWidth="150dp"
+        android:onClick="topButtonClicked"
+        android:text="Start"
+        android:textSize="40sp" />
     
 </RelativeLayout>

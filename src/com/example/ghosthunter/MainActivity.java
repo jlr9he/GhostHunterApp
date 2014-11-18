@@ -31,11 +31,6 @@ public class MainActivity extends Activity {
 			});
 	 }
 	 
-	 public void topButtonClicked(View button) {
-	    	// Create an intent to associate button clicked with Popup class
-	    	Intent intent = new Intent (this, Popup.class);
-	    	this.startActivity(intent);
-	    }	
 //	 
 //	 @Override 
 //	 protected void onCreate(Bundle savedInstanceState) {
