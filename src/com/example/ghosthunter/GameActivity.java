@@ -2,24 +2,19 @@ package com.example.ghosthunter;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.*;
 
-public class GameActivity extends Activity implements GestureDetector.OnGestureListener,
-GestureDetector.OnDoubleTapListener {
+public class GameActivity extends Activity {
 	/*
 	 * http://code.tutsplus.com/tutorials/using-the-accelerometer-on-android--mobile
 	 * -22125
@@ -146,60 +141,13 @@ GestureDetector.OnDoubleTapListener {
 		setContentView(linearLayout);
 
 	}
-
-	@Override
-	public boolean onSingleTapConfirmed(MotionEvent e) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean onDoubleTap(MotionEvent e) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean onDoubleTapEvent(MotionEvent e) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean onDown(MotionEvent e) {
-		System.out.println("Down");
-		return false;
-	}
-
-	@Override
-	public void onShowPress(MotionEvent e) {
-		// TODO Auto-generated method stub
+	public void moveUp() {
 		
 	}
-
-	@Override
-	public boolean onSingleTapUp(MotionEvent e) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-			float distanceY) {
-		System.out.println("Scroll");
-		return false;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent e) {
-		// TODO Auto-generated method stub
+	public void moveDown() {
 		
 	}
-
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
-		// TODO Auto-generated method stub
-		return false;
+	public void shoot() {
+		
 	}
 }
