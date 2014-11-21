@@ -141,13 +141,14 @@ public class GameActivity extends Activity {
 		setContentView(linearLayout);
 
 	}
-	public void moveUp() {
+	public boolean moveUp() {
+		return false;
+	}
+	public boolean moveDown() {
+		return false;
 		
 	}
-	public void moveDown() {
-		
-	}
-	public void shoot() {
-		
+	public boolean shoot() {
+		return false;
 	}
 }
