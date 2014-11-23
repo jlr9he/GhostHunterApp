@@ -56,26 +56,11 @@
         android:textSize="40sp" />
 
     <ImageButton
-        android:id="@+id/shootbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/shoot"
-        android:minWidth="150dp"
-        android:onClick="shoot"
-        android:textSize="40sp" />
-
-    <ImageButton
         android:id="@+id/upbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/scorebox"
-        android:layout_alignLeft="@+id/scoreTextView"
+        android:layout_width="75sp"
+        android:layout_height="75sp"
         android:layout_alignParentTop="true"
         android:background="@drawable/up"
-        android:minWidth="150dp"
         android:onClick="moveUp" />
 
     <ImageView
@@ -88,13 +73,21 @@
 
     <ImageButton
         android:id="@+id/downbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/button1"
-        android:layout_marginRight="14dp"
+        android:layout_width="75sp"
+        android:layout_height="75sp"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/down"
-        android:minWidth="150dp"
         android:onClick="moveDown" />
+
+    <ImageButton
+        android:id="@+id/shootbutton"
+        android:layout_width="75sp"
+        android:layout_height="75sp"
+        android:layout_alignLeft="@+id/spaceship1"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:background="@drawable/shoot"
+        android:onClick="shoot"
+        android:scaleType="center" />
 
 </RelativeLayout>
