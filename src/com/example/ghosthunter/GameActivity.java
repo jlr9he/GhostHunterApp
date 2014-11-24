@@ -4,9 +4,6 @@ import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Menu;
@@ -18,17 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class GameActivity extends Activity {
-	/*
-	 * http://code.tutsplus.com/tutorials/using-the-accelerometer-on-android--mobile
-	 * -22125
-	 */
 
-	private SensorManager senSensorManager;
-	private Sensor senAccelerometer;
+
 	private long lastUpdate = 0;
 	private float last_x, last_y, last_z;
-	private static final int SHAKE_THRESHOLD = 600; // TODO: modify to change
-													// for change in x-value
 	private int spaceshipCoords;
 	private final int INCREMENT = 40;
 	@Override
@@ -74,38 +64,7 @@ public class GameActivity extends Activity {
 		super.onResume();
 	}
 
-	public void onSensorChange(SensorEvent sensorEvent) {
-		Sensor mySensor = sensorEvent.sensor;
-
-		if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-			float x = sensorEvent.values[0];
-			float y = sensorEvent.values[1];
-			float z = sensorEvent.values[2];
-
-			// the following code exists to control the sensitivity of the
-			// accelerometer
-			// updates on slower intervals
-			// TODO: Adjust to fit change in x-angle instead of detect shake
-			long curTime = System.currentTimeMillis();
-
-			if ((curTime - lastUpdate) > 100) {
-				long diffTime = (curTime - lastUpdate);
-				lastUpdate = curTime;
-
-				// float speed = Math.abs(x + y + z - last_x - last_y - last_z)/
-				// diffTime * 10000;
-				float tilt = 0; // TODO: implement
-
-				if (tilt > SHAKE_THRESHOLD) {
-
-				}
-
-				last_x = x;
-				last_y = y;
-				last_z = z;
-			}
-		}
-	}
+	
 
 	public void updateScore(int score) {
 
