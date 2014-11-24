@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,11 +23,19 @@ public class GameActivity extends Activity {
 	private int spaceshipCoordsX;
 	private final int SPACESHIP_INCREMENT = 40;
 	private final int LASER_INCREMENT = 300;
+	private int screenHeight;
+	private int screenWidth;
+	private ImageView spaceship1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
+		DisplayMetrics metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		screenHeight = metrics.heightPixels;
+		screenWidth = metrics.widthPixels;
+		spaceship1 = (ImageView) findViewById(R.id.spaceship1);
 	}
 
 	@Override
@@ -34,8 +43,8 @@ public class GameActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.game, menu);
 		ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
-		spaceshipCoordsY = (spaceship1.getTop() + spaceship1.getBottom())/2;
-		spaceshipCoordsX = (spaceship1.getLeft() + spaceship1.getRight())/2;
+		spaceshipCoordsY = (spaceship1.getTop() + spaceship1.getBottom()) / 2;
+		spaceshipCoordsX = (spaceship1.getLeft() + spaceship1.getRight()) / 2;
 		return true;
 	}
 
@@ -111,30 +120,32 @@ public class GameActivity extends Activity {
 	}
 
 	public void moveUp(View view) {
-		ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
+
 
 		if (!((spaceshipCoordsY - SPACESHIP_INCREMENT) < 0)) { // Keep spaceship
 																// in screen
 			spaceshipCoordsY -= SPACESHIP_INCREMENT; // Subtracts because top of
-													// the screen
-			// is 0
+														// the screen is 0
+
 			spaceship1.setY(spaceshipCoordsY);
 		}
 	}
 
 	public void moveDown(View view) {
-		// TODO: collision for bottom of screen
-		ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
-		spaceshipCoordsY += SPACESHIP_INCREMENT;
-		spaceship1.setY(spaceshipCoordsY);
+		// TODO: collision for bottom of screen (this isn't working)
+		if (!((spaceshipCoordsY + SPACESHIP_INCREMENT) > screenWidth)) {
+			spaceshipCoordsY += SPACESHIP_INCREMENT;
+			spaceship1.setY(spaceshipCoordsY);
+		}
 	}
 
 	public void shoot(View view) {
 		ImageView laser = (ImageView) findViewById(R.id.laser);
 		for (int i = 0; i < 3; i++) {
-			
+			laser = (ImageView) findViewById(R.id.laser);
 			laser.setX(spaceshipCoordsX + LASER_INCREMENT);
 			laser.setY(spaceshipCoordsY);
+			laser.invalidate();
 		}
 	}
 }
