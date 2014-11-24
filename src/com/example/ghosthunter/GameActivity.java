@@ -16,11 +16,13 @@ import android.widget.TextView;
 
 public class GameActivity extends Activity {
 
-
 	private long lastUpdate = 0;
 	private float last_x, last_y, last_z;
-	private int spaceshipCoords;
-	private final int INCREMENT = 40;
+	private int spaceshipCoordsY;
+	private int spaceshipCoordsX;
+	private final int SPACESHIP_INCREMENT = 40;
+	private final int LASER_INCREMENT = 300;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,7 +34,8 @@ public class GameActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.game, menu);
 		ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
-		spaceshipCoords = spaceship1.getTop();
+		spaceshipCoordsY = (spaceship1.getTop() + spaceship1.getBottom())/2;
+		spaceshipCoordsX = (spaceship1.getLeft() + spaceship1.getRight())/2;
 		return true;
 	}
 
@@ -63,8 +66,6 @@ public class GameActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 	}
-
-	
 
 	public void updateScore(int score) {
 
@@ -112,21 +113,28 @@ public class GameActivity extends Activity {
 	public void moveUp(View view) {
 		ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
 
-		if (!((spaceshipCoords - INCREMENT) < 0)) { // Keep spaceship in screen
-			spaceshipCoords -= INCREMENT; // Subtracts because top of the screen
-											// is 0
-			spaceship1.setY(spaceshipCoords);
+		if (!((spaceshipCoordsY - SPACESHIP_INCREMENT) < 0)) { // Keep spaceship
+																// in screen
+			spaceshipCoordsY -= SPACESHIP_INCREMENT; // Subtracts because top of
+													// the screen
+			// is 0
+			spaceship1.setY(spaceshipCoordsY);
 		}
 	}
 
 	public void moveDown(View view) {
-		//TODO: collision for bottom of screen
+		// TODO: collision for bottom of screen
 		ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
-		spaceshipCoords += INCREMENT;
-		spaceship1.setY(spaceshipCoords);
+		spaceshipCoordsY += SPACESHIP_INCREMENT;
+		spaceship1.setY(spaceshipCoordsY);
 	}
 
-	public boolean shoot(View view) {
-		return false;
+	public void shoot(View view) {
+		ImageView laser = (ImageView) findViewById(R.id.laser);
+		for (int i = 0; i < 3; i++) {
+			
+			laser.setX(spaceshipCoordsX + LASER_INCREMENT);
+			laser.setY(spaceshipCoordsY);
+		}
 	}
 }

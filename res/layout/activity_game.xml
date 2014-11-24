@@ -41,6 +41,15 @@
         android:layout_alignLeft="@+id/downbutton"
         android:layout_centerVertical="true"
         android:src="@drawable/spaceship1" />
+    
+    <ImageView
+        android:id="@+id/laser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="7dp"
+        android:src="@drawable/laser"
+        />
 
     <Button
         android:id="@+id/startGhostMovement"
