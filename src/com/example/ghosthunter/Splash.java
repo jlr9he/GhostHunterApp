@@ -2,6 +2,7 @@ package com.example.ghosthunter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,10 @@ public class Splash extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
+		
+		MediaPlayer logoMusic = MediaPlayer.create(Splash.this, R.raw.splash_sound);
+		logoMusic.start();
+		
 		new Handler().postDelayed(new Runnable() {
 			public void run() {
 				Intent mainIntent = new Intent(Splash.this, MainActivity.class);
