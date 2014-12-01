@@ -1,41 +1,45 @@
 package com.example.ghosthunter;
 
-import android.app.ActionBar.LayoutParams;
+import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
+
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class GameActivity extends Activity {
 
-	private long lastUpdate = 0;
-	private float last_x, last_y, last_z;
-	private int spaceshipCoordsY;
-	private int spaceshipCoordsX;
-	private final int SPACESHIP_INCREMENT = 40;
-	private final int LASER_INCREMENT = 300;
+	private static final String TAG = GameActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_game);
+        super.onCreate(savedInstanceState);
+
+        // requesting to turn the title OFF
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // making it full screen
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        // set our MainGamePanel as the View
+        setContentView(R.layout.activity_game);
+        //setContentView(new MainGamePanel(this));
+        Log.d(TAG, "View added");
+        
+		// TODO: Remove Deprecated Below
+		//super.onCreate(savedInstanceState);
+        
+
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.game, menu);
-		ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
-		spaceshipCoordsY = (spaceship1.getTop() + spaceship1.getBottom())/2;
-		spaceshipCoordsX = (spaceship1.getLeft() + spaceship1.getRight())/2;
+		//ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
+		//spaceshipCoordsY = (spaceship1.getTop() + spaceship1.getBottom())/2;
+		//spaceshipCoordsX = (spaceship1.getLeft() + spaceship1.getRight())/2;
 		return true;
 	}
 
@@ -51,12 +55,6 @@ public class GameActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void startGhostMovement(View button) {
-		// this.startActivity(intent);
-		// Dismiss Start button
-		// Populate ghosts
-	}
-
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -67,51 +65,28 @@ public class GameActivity extends Activity {
 		super.onResume();
 	}
 
+	@Override
+	protected void onDestroy() {
+		Log.d(TAG, "Destroying...");
+		super.onDestroy();
+	}
+
+	@Override
+	protected void onStop() {
+		Log.d(TAG, "Stopping...");
+		super.onStop();
+	}
+	 
 	public void updateScore(int score) {
 
-		TextView textView = (TextView) findViewById(R.id.scoreTextView);
-		textView.setText(score);
+		//TextView textView = (TextView) findViewById(R.id.scoreTextView);
+		//textView.setText(score);
 	}
 
-	/*
-	 * Data: 11-Nov-14
-	 * 
-	 * @Method: addGhosts
-	 * 
-	 * @Purpose: add ghosts on an interval at random y locations off screen to
-	 * the right. They will move left
-	 * 
-	 * @Param: none
-	 * 
-	 * @Return none
-	 */
 
-	public void addGhosts() {
-
-		// LinearLayOut Setup
-		LinearLayout linearLayout = new LinearLayout(this);
-		linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-		linearLayout.setLayoutParams(new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-
-		// ImageView Setup
-		ImageView imageView = new ImageView(this);
-		// setting image resource
-		imageView.setImageResource(R.drawable.ghost);
-		// setting image position
-		imageView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.WRAP_CONTENT));
-
-		// adding view to layout
-		linearLayout.addView(imageView);
-		// make visible to program
-		setContentView(linearLayout);
-
-	}
 
 	public void moveUp(View view) {
-		ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
+		/*ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
 
 		if (!((spaceshipCoordsY - SPACESHIP_INCREMENT) < 0)) { // Keep spaceship
 																// in screen
@@ -119,22 +94,39 @@ public class GameActivity extends Activity {
 													// the screen
 			// is 0
 			spaceship1.setY(spaceshipCoordsY);
-		}
+		}*/
+		Log.d(TAG, "Move Up...");
+		MainGamePanel gamePanel = (MainGamePanel) findViewById(R.id.gameView);
+		gamePanel.moveUp();
 	}
+
 
 	public void moveDown(View view) {
 		// TODO: collision for bottom of screen
-		ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
-		spaceshipCoordsY += SPACESHIP_INCREMENT;
-		spaceship1.setY(spaceshipCoordsY);
+		//ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
+		//spaceshipCoordsY += SPACESHIP_INCREMENT;
+		//spaceship1.setY(spaceshipCoordsY);
+		Log.d(TAG, "Move Down...");
+		MainGamePanel gamePanel = (MainGamePanel) findViewById(R.id.gameView);
+		gamePanel.moveDown();
 	}
 
 	public void shoot(View view) {
-		ImageView laser = (ImageView) findViewById(R.id.laser);
+		/*ImageView laser = (ImageView) findViewById(R.id.laser);
 		for (int i = 0; i < 3; i++) {
 			
 			laser.setX(spaceshipCoordsX + LASER_INCREMENT);
 			laser.setY(spaceshipCoordsY);
-		}
+		}*/
+		Log.d(TAG, "Shoot...");
+		MainGamePanel gamePanel = (MainGamePanel) findViewById(R.id.gameView);
+		gamePanel.shoot();
+
+	}
+	
+	public void pause(View view){
+		Log.d(TAG, "Pause...");
+		MainGamePanel gamePanel = (MainGamePanel) findViewById(R.id.gameView);
+		gamePanel.pause();
 	}
 }

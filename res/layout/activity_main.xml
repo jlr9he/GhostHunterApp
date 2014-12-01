@@ -1,46 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id = "@+id/container"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mainmenubg"
     android:orientation="horizontal"
-    android:background="@drawable/levelbg"
-    tools:context ="com.example.ghosthunter.MainActivity"
-    tools:ignore= "MergeRootFrame" >
+    tools:context="com.example.ghosthunter.MainActivity"
+    tools:ignore="MergeRootFrame" >
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/begin_game"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="77dp"
+        android:layout_marginRight="81dp"
+        android:text="Begin if you dare..."
+        android:textSize="50dp" />
 
     <Button
         android:id="@+id/begin_game"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/score"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_marginBottom="58dp"
         android:background="@drawable/button"
-        android:textStyle="bold" 
-        android:textColor="#ff0000"
-        android:text="@string/start" />
+        android:text="@string/start"
+        android:textColor="#663399"
+        android:textSize="40sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/begin_game"        
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="188dp"
         android:background="@drawable/button"
-        android:text="@string/scores" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:text="@string/welcome"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView1"        
-        android:layout_alignParentLeft="true"
-        android:text="Begin if you dare..." />
+        android:text="@string/scores"
+        android:textColor="#663399"
+        android:textSize="40sp" />
 
 </RelativeLayout>
