@@ -98,5 +98,15 @@
         android:background="@drawable/shoot"
         android:onClick="shoot"
         android:scaleType="center" />
-
+    
+    <ImageView
+        android:id="@+id/coin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:src="@drawable/coin" />
+    
 </RelativeLayout>

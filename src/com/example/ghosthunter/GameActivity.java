@@ -109,6 +109,31 @@ public class GameActivity extends Activity {
 		setContentView(linearLayout);
 
 	}
+	
+	public void addCoins() {
+
+		// LinearLayOut Setup
+		LinearLayout linearLayout = new LinearLayout(this);
+		linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+		linearLayout.setLayoutParams(new LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
+		// ImageView Setup
+		ImageView imageView = new ImageView(this);
+		// setting image resource
+		imageView.setImageResource(R.drawable.coin); 
+		// setting image position
+		imageView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT));
+
+		// adding view to layout
+		linearLayout.addView(imageView);
+		// make visible to program
+		setContentView(linearLayout);
+
+	}
+	
 
 	public void moveUp(View view) {
 		ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
