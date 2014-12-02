@@ -41,15 +41,17 @@ public final class R {
         public static final int up=0x7f020010;
     }
     public static final class id {
-        public static final int action_settings=0x7f09000c;
-        public static final int begin_game=0x7f09000a;
-        public static final int container=0x7f090009;
+        public static final int action_settings=0x7f09000e;
+        public static final int begin_game=0x7f09000c;
+        public static final int container=0x7f09000b;
         public static final int downbutton=0x7f090004;
         public static final int gameView=0x7f090000;
+        public static final int highScore=0x7f09000d;
         public static final int imageView1=0x7f090006;
         public static final int multiplierTextView=0x7f090008;
+        public static final int newGame=0x7f09000a;
         public static final int pauseButton=0x7f090005;
-        public static final int score=0x7f09000b;
+        public static final int resumeGame=0x7f090009;
         public static final int scoreTextView=0x7f090007;
         public static final int shootbutton=0x7f090003;
         public static final int toolbar_notification=0x7f090001;

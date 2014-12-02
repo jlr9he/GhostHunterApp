@@ -11,7 +11,7 @@ public class Projectile extends Sprite {
 	public Projectile(Bitmap bitmap, int x, int y, int speed) {
 		super(bitmap,x,y);
 		this.speed = speed;
-		this.setDamage(1);
+		this.damage = 1;
 	}
 
 	public int getDamage() {

@@ -11,10 +11,10 @@ public class Ghost extends Sprite {
 	private boolean touched; // if droid is touched/picked up
 
 	public Ghost(Bitmap bitmap, int level) {
-		super(bitmap, 1920, (int) (1200 * Math.random()));
+		super(bitmap, 1920, (int) (1100 * Math.random()));
 		
 		if (super.getY() < bitmap.getHeight()/2) super.setY(bitmap.getHeight()/2);
-		if (super.getY() > 1200 - bitmap.getHeight()/2) super.setY(1200 - bitmap.getHeight()/2);
+		if (super.getY() > 1200 - bitmap.getHeight()) super.setY(1200 - bitmap.getHeight());
 		
 		switch (level) {
 		case 1:
@@ -61,7 +61,8 @@ public class Ghost extends Sprite {
 	 */
 	public boolean isDead(int damage){
 		this.health -= damage;
-		return (this.health <= 0);
+		if (this.health <= 0) return true;
+		return false;
 	}
 
 	public void setTouched(boolean touched) {

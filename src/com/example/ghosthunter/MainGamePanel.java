@@ -6,6 +6,7 @@ import java.util.Date;
 import com.example.ghosthunter.Ghost;
 import com.example.ghosthunter.Spaceship;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -135,7 +136,7 @@ SurfaceHolder.Callback {
 
 		// check if 1.5 seconds has passed between last ghost
 		Date date = new Date();
-		if (date.getTime() >= lastGhostTime + 4000 && !isPaused){
+		if (date.getTime() >= lastGhostTime + 3000 && !isPaused){
 
 			int level = 1 + ghostsAdded/5;
 			if (level > 3) level = 3;
@@ -200,16 +201,14 @@ SurfaceHolder.Callback {
 						projectile.getY() - projectile.getBitmap().getHeight()/2 <= target.getY() + target.getBitmap().getHeight()/2 &&
 						projectile.getY() + projectile.getBitmap().getHeight()/2 >= target.getY() - target.getBitmap().getHeight()/2){
 
-					Log.d(TAG, "collision detected");
+					Log.d(TAG, "collision detected with target health = "+target.getHealth());
 					// subtract damage and remove if heath is below zero
 					if(target.isDead(projectile.getDamage())){
-						Log.d(TAG, "target killed");
+						Log.d(TAG, "target killed with health = "+target.getHealth());
 						updateScore(target.getWorth());
 
-						projectiles.remove(j);
 						targets.remove(i);
 
-						if (projectiles.size() <= 0 || targets.size() <= 0) return;
 						Log.d(TAG, "target removed after");
 
 						/*// check if explosion is null or if it is still active
@@ -225,6 +224,9 @@ SurfaceHolder.Callback {
 						}*/
 
 					}
+					projectiles.remove(j);
+					if (projectiles.size() <= 0 || targets.size() <= 0) return;
+
 				}
 
 				/*
@@ -264,9 +266,36 @@ SurfaceHolder.Callback {
 		//scoreTextView.setText(score.toString());
 		//Log.d(TAG, "new streak at  "+streak);
 	}
+	
+	public int getScore(){
+		return score;
+	}
+	
+	public int getGhostsAdded(){
+		return ghostsAdded;
+	}
 
+	public int getStreak(){
+		return streak;
+	}
+	
 	public void pause(){
 		isPaused = !isPaused;
+	}
+	
+	public void resumeGame(int score, int streak, int ghostsAdded){
+		this.score = score;
+		this.streak = streak;
+		this.ghostsAdded = ghostsAdded;
+		
+		Log.d(TAG, "resume w/ score "+score+" streak "+ streak+" ghosts added "+ ghostsAdded);
+
+		multiplier = streak / 3;
+		if (multiplier < 1) multiplier = 1;
+		if (multiplier > 10) multiplier = 10;
+		
+		((GameActivity) getContext()).setScoreTextView(score);
+		((GameActivity) getContext()).setMultiplierTextView(multiplier);
 	}
 
 	@Override

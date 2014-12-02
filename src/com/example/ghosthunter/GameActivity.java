@@ -5,62 +5,84 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class GameActivity extends Activity {
 
 	private static final String TAG = GameActivity.class.getSimpleName();
+	private Button resumeButton;
+	private Button newGameButton;
 	private TextView scoreTextView;
 	private TextView multiplierTextView;
 	private MainGamePanel gamePanel;
-	
+	private int highScore;
+	private int score;
+	private int streak;
+	private int ghostsAdded;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 
-        // requesting to turn the title OFF
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // making it full screen
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // set our MainGamePanel as the View
-        setContentView(R.layout.activity_game);
-        Log.d(TAG, "View added");
-        
-        MainGamePanel sfvTrack = (MainGamePanel)findViewById(R.id.gameView);
-        sfvTrack.setZOrderOnTop(true);    // necessary
-        SurfaceHolder sfhTrack = sfvTrack.getHolder();
-        sfhTrack.setFormat(PixelFormat.TRANSPARENT);
-        
-        scoreTextView = (TextView) findViewById(R.id.scoreTextView);
+		// requesting to turn the title OFF
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// making it full screen
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		// set our MainGamePanel as the View
+		setContentView(R.layout.activity_game);
+		Log.d(TAG, "View added");
+
+
+		SharedPreferences prefs = getSharedPreferences("userPrefs", MODE_PRIVATE); 
+		score = prefs.getInt("score", 0); //0 is the default value.
+		streak = prefs.getInt("streak", 0); //0 is the default value.
+		ghostsAdded = prefs.getInt("ghostsAdded", 0); //0 is the default value.
+		highScore = prefs.getInt("highScore", 0); //0 is the default value.
+
+
+		MainGamePanel sfvTrack = (MainGamePanel)findViewById(R.id.gameView);
+		sfvTrack.setZOrderOnTop(true);    // necessary
+		SurfaceHolder sfhTrack = sfvTrack.getHolder();
+		sfhTrack.setFormat(PixelFormat.TRANSPARENT);
+
+		scoreTextView = (TextView) findViewById(R.id.scoreTextView);
 		scoreTextView.setText("0");
-		
+
 		multiplierTextView = (TextView) findViewById(R.id.multiplierTextView);
 		multiplierTextView.setText("1x");
-        
+
 		gamePanel = (MainGamePanel) findViewById(R.id.gameView);
+		gamePanel.pause();
+
+		resumeButton = (Button) findViewById(R.id.resumeGame);
+		newGameButton = (Button) findViewById(R.id.newGame);
+
+		if (ghostsAdded < 2) resumeButton.setVisibility(View.GONE);
 
 	}
-	
+
 	public void setScoreTextView(final int score){
-	    GameActivity.this.runOnUiThread(new Runnable() {     
-	        public void run() {         
-	        	scoreTextView.setText(String.valueOf(score));     
-	        } 
-	     });
+		GameActivity.this.runOnUiThread(new Runnable() {     
+			public void run() {         
+				scoreTextView.setText(String.valueOf(score));     
+			} 
+		});
 	}
-	
+
 	public void setMultiplierTextView(final int multiplier){
-	    GameActivity.this.runOnUiThread(new Runnable() {     
-	        public void run() {         
-	        	multiplierTextView.setText(String.valueOf(multiplier)+"x");     
-	        } 
-	     });
+		GameActivity.this.runOnUiThread(new Runnable() {     
+			public void run() {         
+				multiplierTextView.setText(String.valueOf(multiplier)+"x");     
+			} 
+		});
 	}
 
 	@Override
@@ -86,6 +108,19 @@ public class GameActivity extends Activity {
 	protected void onPause() {
 		Log.d(TAG, "OnPause...");
 		gamePanel.onPause(); 
+
+		SharedPreferences.Editor editor = getSharedPreferences("userPrefs", MODE_PRIVATE).edit();
+
+		editor.putInt("score", gamePanel.getScore());
+		editor.putInt("ghostsAdded", gamePanel.getGhostsAdded());
+		editor.putInt("streak", gamePanel.getStreak());
+		if(gamePanel.getScore() > highScore){ 
+			Log.d(TAG, "setting high score: "+ gamePanel.getScore());
+			editor.putInt("highScore", gamePanel.getScore());
+		}
+
+		editor.commit();
+
 		super.onPause();
 	}
 
@@ -106,12 +141,22 @@ public class GameActivity extends Activity {
 		Log.d(TAG, "Stopping...");
 		super.onStop();
 	}
-	 
-	public void saveScore(int score) {
-		
+
+	public void resumeGame(View view) {
+		resumeButton.setVisibility(View.GONE);
+		newGameButton.setVisibility(View.GONE);
+
+		gamePanel.resumeGame(score, streak, ghostsAdded);
+
+		gamePanel.pause();
 	}
 
+	public void newGame(View view) {
+		resumeButton.setVisibility(View.GONE);
+		newGameButton.setVisibility(View.GONE);
 
+		gamePanel.pause();
+	}
 
 	public void moveUp(View view) {
 		Log.d(TAG, "Move Up...");
@@ -129,7 +174,7 @@ public class GameActivity extends Activity {
 		gamePanel.shoot();
 
 	}
-	
+
 	public void pause(View view){
 		Log.d(TAG, "Pause...");
 		gamePanel.pause();

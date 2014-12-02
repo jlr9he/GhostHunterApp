@@ -9,21 +9,7 @@
     tools:context="com.example.ghosthunter.MainActivity"
     tools:ignore="MergeRootFrame" >
 
-    <Button
-        android:id="@+id/begin_game"
-        android:layout_width="300dp"
-        android:layout_height="80dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="95dp"
-        android:layout_marginTop="164dp"
-        android:background="@drawable/button"
-        android:text="@string/start"
-        android:textColor="#663399"
-        android:textSize="40sp"
-        android:textStyle="bold" />
-
-    <Button
+    <!--Button
         android:id="@+id/score"
         android:layout_width="300dp"
         android:layout_height="80dp"
@@ -33,6 +19,32 @@
         android:background="@drawable/button"
         android:text="@string/scores"
         android:textColor="#663399"
+        android:textSize="40sp" /-->
+
+    <Button
+        android:id="@+id/begin_game"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="90dp"
+        android:background="@drawable/button"
+        android:text="@string/start"
+        android:textColor="#663399"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/highScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/begin_game"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/begin_game"
+        android:layout_marginTop="62dp"
+        android:ems="10"
+        android:text="High Score: 0"
+        android:textColor="#ffffff"
         android:textSize="40sp" />
 
 </RelativeLayout>

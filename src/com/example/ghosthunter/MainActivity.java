@@ -2,12 +2,14 @@ package com.example.ghosthunter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;  
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -21,6 +23,15 @@ public class MainActivity extends Activity {
 	        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	        
 	        setContentView(R.layout.activity_main); 
+	        
+	        SharedPreferences prefs = getSharedPreferences("userPrefs", MODE_PRIVATE); 
+	        //String restoredText = prefs.getString("text", null);
+	        //if (restoredText != null) {
+	          int highScore = prefs.getInt("highScore", -1); //0 is the default value.
+		      TextView tv = (TextView) findViewById(R.id.highScore);
+		      tv.setText("High Score: "+String.valueOf(highScore));
+
+	        //}
 	        
 	        Button st = (Button) findViewById(R.id.begin_game);
 	        st.setOnClickListener( new View.OnClickListener() {
