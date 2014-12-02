@@ -12,7 +12,7 @@ public class Spaceship extends Sprite {
 
 	public Spaceship(Bitmap bitmap) {
 		super(bitmap, 300, 550);
-		this.heatlh = 100;
+		this.heatlh = 3;
 		destY = 300;
 	}
 

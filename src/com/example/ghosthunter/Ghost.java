@@ -13,18 +13,21 @@ public class Ghost extends Sprite {
 	public Ghost(Bitmap bitmap, int level) {
 		super(bitmap, 1920, (int) (1200 * Math.random()));
 		
+		if (super.getY() < bitmap.getHeight()/2) super.setY(bitmap.getHeight()/2);
+		if (super.getY() > 1200 - bitmap.getHeight()/2) super.setY(1200 - bitmap.getHeight()/2);
+		
 		switch (level) {
 		case 1:
 			this.health = 1;
-			this.speed = 2;
+			this.speed = 4;
 			break;
 		case 2:
 			this.health = 2;
-			this.speed = 3;
+			this.speed = 6;
 			break;
 		case 3:
 			this.health = 5;
-			this.speed = 3;
+			this.speed = 10;
 			break;	
 
 		default:
@@ -71,17 +74,4 @@ public class Ghost extends Sprite {
 		setX(getX() - speed);
 	}
 
-	/*public void handleActionDown(int eventX, int eventY) {
-		if (eventX >= (x - bitmap.getWidth() / 2) && (eventX <= (x + bitmap.getWidth()/2))) {
-			if (eventY >= (y - bitmap.getHeight() / 2) && (y <= (y + bitmap.getHeight() / 2))) {
-				// droid touched
-				setTouched(true);
-			} else {
-				setTouched(false);
-			}
-		} else {
-			setTouched(false);
-		}
-
-	}*/
 }
