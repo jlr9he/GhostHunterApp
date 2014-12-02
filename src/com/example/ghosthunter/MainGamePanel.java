@@ -27,9 +27,11 @@ SurfaceHolder.Callback {
 	private ArrayList<Sprite> drawables = new ArrayList<Sprite>();
 	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	private ArrayList<Ghost> targets = new ArrayList<Ghost>();
+	private ArrayList<Coin> rewards = new ArrayList<Coin>();
 
 	private long lastGhostTime;
 	private int moveDelta = 50;
+	private long lastCoinTime;
 
 	// run time variables
 	private int score = 0;
@@ -37,6 +39,7 @@ SurfaceHolder.Callback {
 	private int streak = 0;
 	private int bestStreak = 0;
 	private int ghostsAdded = 0;
+	private int coinsAdded = 0;
 	private Explosion[] explosions;
 
 	public MainGamePanel(Context context, AttributeSet attributeSet) {
@@ -180,6 +183,28 @@ SurfaceHolder.Callback {
 			ghostsAdded++;
 			lastGhostTime = date.getTime();
 			return targets.add(ghostTemp);
+		}
+		else return false;
+	}
+	
+	public boolean addCoin(){
+
+		// check if 1.5 seconds has passed between last ghost
+		Date date = new Date();
+		if (date.getTime() >= lastCoinTime + 7000 && !isPaused){
+
+			int level = 1 + coinsAdded/5;
+			if (level > 3) level = 3;
+
+			Coin CoinTemp = null;
+			switch (level) {
+			case 1:
+				CoinTemp = new Coin(BitmapFactory.decodeResource(getResources(), R.drawable.coin), level);
+				break;
+			}
+			coinsAdded++;
+			lastCoinTime = date.getTime();
+			return rewards.add(CoinTemp);
 		}
 		else return false;
 	}

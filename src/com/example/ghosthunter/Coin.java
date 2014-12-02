@@ -3,14 +3,14 @@ package com.example.ghosthunter;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-public class Ghost extends Sprite {
+public class Coin extends Sprite {
 
 	private int speed = 2;
 	private int health;
 	private int worth;
 	private boolean touched; // if droid is touched/picked up
 
-	public Ghost(Bitmap bitmap, int level) {
+	public Coin(Bitmap bitmap, int level) {
 		super(bitmap, 1920, (int) (1200 * Math.random()));
 		
 		switch (level) {
