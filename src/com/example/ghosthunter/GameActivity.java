@@ -5,15 +5,21 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import android.app.Activity;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceHolder;
 import android.view.View;
+import android.widget.TextView;
 
 public class GameActivity extends Activity {
 
 	private static final String TAG = GameActivity.class.getSimpleName();
-
+	private TextView scoreTextView;
+	private TextView multiplierTextView;
+	private MainGamePanel gamePanel;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,22 +30,43 @@ public class GameActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // set our MainGamePanel as the View
         setContentView(R.layout.activity_game);
-        //setContentView(new MainGamePanel(this));
         Log.d(TAG, "View added");
         
-		// TODO: Remove Deprecated Below
-		//super.onCreate(savedInstanceState);
+        MainGamePanel sfvTrack = (MainGamePanel)findViewById(R.id.gameView);
+        sfvTrack.setZOrderOnTop(true);    // necessary
+        SurfaceHolder sfhTrack = sfvTrack.getHolder();
+        sfhTrack.setFormat(PixelFormat.TRANSPARENT);
         
+        scoreTextView = (TextView) findViewById(R.id.scoreTextView);
+		scoreTextView.setText("0");
+		
+		multiplierTextView = (TextView) findViewById(R.id.multiplierTextView);
+		multiplierTextView.setText("1x");
+        
+		gamePanel = (MainGamePanel) findViewById(R.id.gameView);
 
+	}
+	
+	public void setScoreTextView(final int score){
+	    GameActivity.this.runOnUiThread(new Runnable() {     
+	        public void run() {         
+	        	scoreTextView.setText(String.valueOf(score));     
+	        } 
+	     });
+	}
+	
+	public void setMultiplierTextView(final int multiplier){
+	    GameActivity.this.runOnUiThread(new Runnable() {     
+	        public void run() {         
+	        	multiplierTextView.setText(String.valueOf(multiplier)+"x");     
+	        } 
+	     });
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.game, menu);
-		//ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
-		//spaceshipCoordsY = (spaceship1.getTop() + spaceship1.getBottom())/2;
-		//spaceshipCoordsX = (spaceship1.getLeft() + spaceship1.getRight())/2;
 		return true;
 	}
 
@@ -57,11 +84,14 @@ public class GameActivity extends Activity {
 
 	@Override
 	protected void onPause() {
+		Log.d(TAG, "OnPause...");
+		gamePanel.onPause(); 
 		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
+		Log.d(TAG, "onResume...");
 		super.onResume();
 	}
 
@@ -77,56 +107,31 @@ public class GameActivity extends Activity {
 		super.onStop();
 	}
 	 
-	public void updateScore(int score) {
-
-		//TextView textView = (TextView) findViewById(R.id.scoreTextView);
-		//textView.setText(score);
+	public void saveScore(int score) {
+		
 	}
 
 
 
 	public void moveUp(View view) {
-		/*ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
-
-		if (!((spaceshipCoordsY - SPACESHIP_INCREMENT) < 0)) { // Keep spaceship
-																// in screen
-			spaceshipCoordsY -= SPACESHIP_INCREMENT; // Subtracts because top of
-													// the screen
-			// is 0
-			spaceship1.setY(spaceshipCoordsY);
-		}*/
 		Log.d(TAG, "Move Up...");
-		MainGamePanel gamePanel = (MainGamePanel) findViewById(R.id.gameView);
 		gamePanel.moveUp();
 	}
 
 
 	public void moveDown(View view) {
-		// TODO: collision for bottom of screen
-		//ImageView spaceship1 = (ImageView) findViewById(R.id.spaceship1);
-		//spaceshipCoordsY += SPACESHIP_INCREMENT;
-		//spaceship1.setY(spaceshipCoordsY);
 		Log.d(TAG, "Move Down...");
-		MainGamePanel gamePanel = (MainGamePanel) findViewById(R.id.gameView);
 		gamePanel.moveDown();
 	}
 
 	public void shoot(View view) {
-		/*ImageView laser = (ImageView) findViewById(R.id.laser);
-		for (int i = 0; i < 3; i++) {
-			
-			laser.setX(spaceshipCoordsX + LASER_INCREMENT);
-			laser.setY(spaceshipCoordsY);
-		}*/
 		Log.d(TAG, "Shoot...");
-		MainGamePanel gamePanel = (MainGamePanel) findViewById(R.id.gameView);
 		gamePanel.shoot();
 
 	}
 	
 	public void pause(View view){
 		Log.d(TAG, "Pause...");
-		MainGamePanel gamePanel = (MainGamePanel) findViewById(R.id.gameView);
 		gamePanel.pause();
 	}
 }

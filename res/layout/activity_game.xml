@@ -12,54 +12,6 @@
 
     <!-- Shows images from drawable resources -->
 
-    <!--RelativeLayout
-        android:id="@+id/relativeLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal" >
-
-        <ImageButton
-            android:id="@+id/shootbutton"
-            android:layout_width="75sp"
-            android:layout_height="75sp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:adjustViewBounds="true"
-            android:background="@drawable/shoot"
-            android:onClick="shoot"
-            android:scaleType="center" />
-
-        <ImageView
-            android:id="@+id/laser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="39dp"
-            android:layout_marginLeft="60dp"
-            android:layout_toRightOf="@+id/scorebox"
-            android:src="@drawable/laser" />
-
-        
-
-        <ImageView
-            android:id="@+id/scorebox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/scorebox" />
-
-        <TextView
-            android:id="@+id/scoreTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="7dp"
-            android:gravity="right"
-            android:text="999,999,999"
-            android:textSize="25dp" />
-
-    </RelativeLayout-->
 
     <com.example.ghosthunter.MainGamePanel
         android:id="@+id/gameView"
@@ -112,6 +64,38 @@
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/pauseicon" 
                 android:onClick="pause"/>
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/scorebox" />
+
+            <TextView
+                android:id="@+id/scoreTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="7dp"
+                android:gravity="right"
+                android:minWidth="130dp"
+                android:text="999,999,999"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/multiplierTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/scoreTextView"
+                android:layout_alignBottom="@+id/scoreTextView"
+                android:layout_marginLeft="25dp"
+                android:layout_toRightOf="@+id/scoreTextView"
+                android:gravity="right"
+                android:text="x7"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 

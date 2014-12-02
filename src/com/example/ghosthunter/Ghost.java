@@ -13,6 +13,9 @@ public class Ghost extends Sprite {
 	public Ghost(Bitmap bitmap, int level) {
 		super(bitmap, 1920, (int) (1200 * Math.random()));
 		
+		if (super.getY() < bitmap.getHeight()/2) super.setY(bitmap.getHeight()/2);
+		if (super.getY() > 1200 - bitmap.getHeight()/2) super.setY(1200 - bitmap.getHeight()/2);
+		
 		switch (level) {
 		case 1:
 			this.health = 1;

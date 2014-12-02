@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.TextView;
 
 public class MainGamePanel extends SurfaceView implements
 SurfaceHolder.Callback {
@@ -24,14 +25,14 @@ SurfaceHolder.Callback {
 	private MainThread thread;
 	private boolean isPaused;
 	private Spaceship spaceship;
+	private TextView  scoreTextView;
+	private Sprite[] heartsArray;
 	private ArrayList<Sprite> drawables = new ArrayList<Sprite>();
 	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	private ArrayList<Ghost> targets = new ArrayList<Ghost>();
-	private ArrayList<Coin> rewards = new ArrayList<Coin>();
 
 	private long lastGhostTime;
-	private int moveDelta = 50;
-	private long lastCoinTime;
+	private int moveDelta = 75;
 
 	// run time variables
 	private int score = 0;
@@ -39,7 +40,6 @@ SurfaceHolder.Callback {
 	private int streak = 0;
 	private int bestStreak = 0;
 	private int ghostsAdded = 0;
-	private int coinsAdded = 0;
 	private Explosion[] explosions;
 
 	public MainGamePanel(Context context, AttributeSet attributeSet) {
@@ -72,20 +72,18 @@ SurfaceHolder.Callback {
 		Canvas c = getHolder().lockCanvas();
 		draw(c);
 
-		int bg_x = 1920/2;
-		int bg_y = 1200/2;
-		//Sprite bg = new Sprite (BitmapFactory.decodeResource(getResources(), R.drawable.levelbg), bg_x, bg_y);
-		//drawables.add(bg);
-
-		Bitmap scoreBox = BitmapFactory.decodeResource(getResources(), R.drawable.scorebox);
-		Sprite scoreBoxSprite = new Sprite (BitmapFactory.decodeResource(getResources(), R.drawable.scorebox), scoreBox.getWidth()/2, scoreBox.getHeight()/2);
-		drawables.add(scoreBoxSprite);
-
+		// draw hearts
+		heartsArray = new Sprite[spaceship.getHeatlh()];
+		for(int i = 0; i < heartsArray.length; i++){
+			Sprite heart = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.heart), 600+100*i, 50);
+			heartsArray[i] = heart;
+			drawables.add(heart);
+		}
 		getHolder().unlockCanvasAndPost(c);
 
 		thread.setRunning(true);
 		thread.start();
-		
+
 		explosions = new Explosion[15];
 		for (int i = 0; i < explosions.length; i++) {
 			explosions[i] = null;
@@ -106,43 +104,20 @@ SurfaceHolder.Callback {
 				// try again shutting down the thread
 			}
 		}
-		Log.d(TAG, "Thread was shut down cleanly");
+		Log.d(TAG, "Thread was shut down cleanly from destroy");
 	}
 
-	/*@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			// delegating event handling to the droid
-			ghost.handleActionDown((int)event.getX(), (int)event.getY());
-
-			// check if in the lower part of the screen we exit
-			if (event.getY() > getHeight() - 50) {
-				thread.setRunning(false);
-				((Activity)getContext()).finish();
-			} else {
-				Log.d(TAG, "Coords: x=" + event.getX() + ",y=" + event.getY());
-			}
-		} if (event.getAction() == MotionEvent.ACTION_MOVE) {
-			// the gestures
-			if (ghost.isTouched()) {
-				// the droid was picked up and is being dragged
-				ghost.setX((int)event.getX());
-				ghost.setY((int)event.getY());
-			}
-		} if (event.getAction() == MotionEvent.ACTION_UP) {
-			// touch was released
-			if (ghost.isTouched()) {
-				ghost.setTouched(false);
-			}
-		}
-		return true;
-	}*/
+	public void onPause(){
+		// tell the thread to shut down and wait for it to finish
+		// this is a clean shutdown
+		thread.setRunning(false);
+	}
 
 	public boolean shoot(){
 		// create bullet, then add to projectiles for collision detect and
 		// drawbles for redrawing
 		Projectile bullet = new Projectile(BitmapFactory.decodeResource(getResources(), R.drawable.laser),
-				spaceship.getX(), spaceship.getY(), 10);
+				spaceship.getX(), spaceship.getY(), 15);
 		return projectiles.add(bullet);
 	}
 
@@ -186,36 +161,36 @@ SurfaceHolder.Callback {
 		}
 		else return false;
 	}
-	
-	public boolean addCoin(){
-
-		// check if 1.5 seconds has passed between last ghost
-		Date date = new Date();
-		if (date.getTime() >= lastCoinTime + 7000 && !isPaused){
-
-			int level = 1 + coinsAdded/5;
-			if (level > 3) level = 3;
-
-			Coin CoinTemp = null;
-			switch (level) {
-			case 1:
-				CoinTemp = new Coin(BitmapFactory.decodeResource(getResources(), R.drawable.coin), level);
-				break;
-			}
-			coinsAdded++;
-			lastCoinTime = date.getTime();
-			return rewards.add(CoinTemp);
-		}
-		else return false;
-	}
 
 	public void collisionDetection(){
-		
-		for (int i = 0; i < projectiles.size(); i++ ){
-			for(int j = 0; j < targets.size(); j++){
-				Projectile projectile = projectiles.get(i);
-				Ghost target = targets.get(j);
-				
+		for (int i = 0; i < targets.size(); i++ ){
+
+			Ghost target = targets.get(i);
+
+			/*
+			 *  Target and Left Wall Collision Detection
+			 *  check if target right point is outside screen
+			 *  then check if spaceship is dead
+			 */
+			if(target.getX() + target.getBitmap().getWidth()/2 < 0){
+				Log.d(TAG, "target passed at edge");
+
+				targets.remove(i);
+				spaceship.setHeatlh(spaceship.getHeatlh() - 1);
+				Sprite heart = heartsArray[spaceship.getHeatlh()];
+				drawables.remove(heart);
+
+				// check if dead i.e. end of game
+				if(spaceship.getHeatlh() <= 0){
+					// end game
+					isPaused = true;
+				}
+				if (targets.size() <= 0) return;
+			}
+
+			for(int j = 0; j < projectiles.size(); j++){
+				Projectile projectile = projectiles.get(j);
+
 				/*
 				 *  Projectile and Target Collision Detection 
 				 *  check if projectile right point is inside target left point and right point
@@ -231,10 +206,12 @@ SurfaceHolder.Callback {
 						Log.d(TAG, "target killed");
 						updateScore(target.getWorth());
 
-						projectiles.remove(i); //i--;
-						targets.remove(j); //j--;
+						projectiles.remove(j);
+						targets.remove(i);
+
+						if (projectiles.size() <= 0 || targets.size() <= 0) return;
 						Log.d(TAG, "target removed after");
-						
+
 						/*// check if explosion is null or if it is still active
 						int currentExplosion = 0;
 						Explosion explosion = explosions[currentExplosion];
@@ -246,7 +223,7 @@ SurfaceHolder.Callback {
 							explosion = new Explosion(EXPLOSION_SIZE, (int)event.getX(), (int)event.getY());
 							explosions[currentExplosion] = explosion;
 						}*/
-						
+
 					}
 				}
 
@@ -256,26 +233,9 @@ SurfaceHolder.Callback {
 				 */
 				else if(projectile.getX() - projectile.getBitmap().getWidth()/2 > 1920){
 					Log.d(TAG, "projectile pasesd at edge");
-					projectiles.remove(i); //i--;
+					projectiles.remove(j); //i--;
 					updateScore(0);
-				}
-
-				/*
-				 *  Target and Left Wall Collision Detection
-				 *  check if target right point is outside screen
-				 *  then check if spaceship is dead
-				 */
-				else if(target.getX() + target.getBitmap().getWidth()/2 < 0){
-					Log.d(TAG, "target passed at edge");
-
-					targets.remove(j); //j--;
-					spaceship.setHeatlh(spaceship.getHeatlh() - target.getWorth());
-
-					// check if dead i.e. end of game
-					if(spaceship.getHeatlh() <= 0){
-						// end game
-						isPaused = true;
-					}
+					if (projectiles.size() <= 0 || targets.size() <= 0) return;
 				}
 			}
 		}
@@ -288,16 +248,20 @@ SurfaceHolder.Callback {
 			streak++;
 			if (streak > bestStreak) bestStreak = streak;
 
-			multiplier = streak / 10;
+			multiplier = streak / 3;
 			if (multiplier < 1) multiplier = 1;
 			if (multiplier > 10) multiplier = 10;
 
-			this.score += scoreN * 10 * multiplier;
+			this.score += scoreN * 100 * multiplier;
 		}
 		if (scoreN <= 0){
 			streak = 0;
 			multiplier = 1;
 		}
+		((GameActivity) getContext()).setScoreTextView(score);
+		((GameActivity) getContext()).setMultiplierTextView(multiplier);
+
+		//scoreTextView.setText(score.toString());
 		//Log.d(TAG, "new streak at  "+streak);
 	}
 
