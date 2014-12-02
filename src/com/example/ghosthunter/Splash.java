@@ -2,6 +2,7 @@ package com.example.ghosthunter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,9 @@ public class Splash extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         // making it full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+        MediaPlayer logoMusic = MediaPlayer.create(Splash.this, R.raw.splash_sound);
+		logoMusic.start();
         
         setContentView(R.layout.activity_splash);
 		new Handler().postDelayed(new Runnable() {
