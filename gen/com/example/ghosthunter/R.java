@@ -26,19 +26,21 @@ public final class R {
         public static final int button=0x7f020001;
         public static final int coin=0x7f020002;
         public static final int down=0x7f020003;
-        public static final int ghost=0x7f020004;
-        public static final int heart=0x7f020005;
-        public static final int homescreen=0x7f020006;
-        public static final int ic_launcher=0x7f020007;
-        public static final int laser=0x7f020008;
-        public static final int levelbg=0x7f020009;
-        public static final int mainmenubg=0x7f02000a;
-        public static final int pauseicon=0x7f02000b;
-        public static final int scorebox=0x7f02000c;
-        public static final int shoot=0x7f02000d;
-        public static final int spaceship1=0x7f02000e;
-        public static final int splashscreen=0x7f02000f;
-        public static final int up=0x7f020010;
+        public static final int gameover=0x7f020004;
+        public static final int ghost=0x7f020005;
+        public static final int heart=0x7f020006;
+        public static final int homescreen=0x7f020007;
+        public static final int ic_launcher=0x7f020008;
+        public static final int laser=0x7f020009;
+        public static final int levelbg=0x7f02000a;
+        public static final int mainmenubg=0x7f02000b;
+        public static final int pauseicon=0x7f02000c;
+        public static final int scorebox=0x7f02000d;
+        public static final int shoot=0x7f02000e;
+        public static final int spaceship1=0x7f02000f;
+        public static final int spaceshipanimation=0x7f020010;
+        public static final int splashscreen=0x7f020011;
+        public static final int up=0x7f020012;
     }
     public static final class id {
         public static final int action_settings=0x7f09000e;
@@ -49,9 +51,9 @@ public final class R {
         public static final int highScore=0x7f09000d;
         public static final int imageView1=0x7f090006;
         public static final int multiplierTextView=0x7f090008;
-        public static final int newGame=0x7f09000a;
+        public static final int newGame=0x7f090009;
         public static final int pauseButton=0x7f090005;
-        public static final int resumeGame=0x7f090009;
+        public static final int resumeGame=0x7f09000a;
         public static final int scoreTextView=0x7f090007;
         public static final int shootbutton=0x7f090003;
         public static final int toolbar_notification=0x7f090001;

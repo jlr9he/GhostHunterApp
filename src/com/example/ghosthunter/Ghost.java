@@ -8,26 +8,31 @@ public class Ghost extends Sprite {
 	private int speed = 2;
 	private int health;
 	private int worth;
-	private boolean touched; // if droid is touched/picked up
+	private int level;
 
 	public Ghost(Bitmap bitmap, int level) {
 		super(bitmap, 1920, (int) (1100 * Math.random()));
 		
-		if (super.getY() < bitmap.getHeight()/2) super.setY(bitmap.getHeight()/2);
+		if (super.getY() < bitmap.getHeight()/2+100) super.setY(bitmap.getHeight()/2+100);
 		if (super.getY() > 1200 - bitmap.getHeight()) super.setY(1200 - bitmap.getHeight());
 		
 		switch (level) {
+		case -1:
+			this.health = -1;
+			this.speed = 10;
+			if (super.getY() < 800) super.setY(800);
+			break;	
 		case 1:
 			this.health = 1;
-			this.speed = 2;
+			this.speed = 3;
 			break;
 		case 2:
 			this.health = 2;
-			this.speed = 3;
+			this.speed = 5;
 			break;
 		case 3:
-			this.health = 5;
-			this.speed = 3;
+			this.health = 2;
+			this.speed = 10;
 			break;	
 
 		default:
@@ -50,9 +55,6 @@ public class Ghost extends Sprite {
 		return worth;
 	}
 
-	public boolean isTouched() {
-		return touched;
-	}
 
 	/*
 	 * Method: return if target is dead (health<=0)
@@ -65,14 +67,12 @@ public class Ghost extends Sprite {
 		return false;
 	}
 
-	public void setTouched(boolean touched) {
-		this.touched = touched;
-	}
 
 	@Override
 	public void draw(Canvas canvas) {
 		canvas.drawBitmap(getBitmap(), getX() - (getBitmap().getWidth() / 2), getY() - (getBitmap().getHeight() / 2), null);
 		setX(getX() - speed);
+		if (worth == -1) setY(getY() - speed/2);
 	}
 
 }

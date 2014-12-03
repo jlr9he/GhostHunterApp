@@ -41,6 +41,7 @@ SurfaceHolder.Callback {
 	private int streak = 0;
 	private int bestStreak = 0;
 	private int ghostsAdded = 0;
+	private boolean gameOver;
 	private Explosion[] explosions;
 
 	public MainGamePanel(Context context, AttributeSet attributeSet) {
@@ -48,7 +49,7 @@ SurfaceHolder.Callback {
 		// adding the callback (this) to the surface holder to intercept events
 		getHolder().addCallback(this);
 
-		spaceship = new Spaceship(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship1));
+		spaceship = new Spaceship(BitmapFactory.decodeResource(getResources(), R.drawable.spaceshipanimation));
 		drawables.add(spaceship);
 
 
@@ -74,8 +75,8 @@ SurfaceHolder.Callback {
 		draw(c);
 
 		// draw hearts
-		heartsArray = new Sprite[spaceship.getHeatlh()];
-		for(int i = 0; i < heartsArray.length; i++){
+		heartsArray = new Sprite[spaceship.getHeatlh()+2];
+		for(int i = 0; i < spaceship.getHeatlh(); i++){
 			Sprite heart = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.heart), 600+100*i, 50);
 			heartsArray[i] = heart;
 			drawables.add(heart);
@@ -118,7 +119,7 @@ SurfaceHolder.Callback {
 		// create bullet, then add to projectiles for collision detect and
 		// drawbles for redrawing
 		Projectile bullet = new Projectile(BitmapFactory.decodeResource(getResources(), R.drawable.laser),
-				spaceship.getX(), spaceship.getY(), 15);
+				spaceship.getX()+350, spaceship.getY()+60, 15);
 		return projectiles.add(bullet);
 	}
 
@@ -136,7 +137,7 @@ SurfaceHolder.Callback {
 
 		// check if 1.5 seconds has passed between last ghost
 		Date date = new Date();
-		if (date.getTime() >= lastGhostTime + 3000 && !isPaused){
+		if (date.getTime() >= lastGhostTime + 2000 && !isPaused){
 
 			int level = 1 + ghostsAdded/5;
 			if (level > 3) level = 3;
@@ -158,9 +159,17 @@ SurfaceHolder.Callback {
 			}
 			ghostsAdded++;
 			lastGhostTime = date.getTime();
+			if (ghostsAdded % 9 == 0) addCoin();
 			return targets.add(ghostTemp);
 		}
 		else return false;
+	}
+
+	private void addCoin(){
+
+		Ghost coin = new Ghost(BitmapFactory.decodeResource(getResources(), R.drawable.coin), -1);
+		targets.add(coin);
+
 	}
 
 	public void collisionDetection(){
@@ -173,7 +182,7 @@ SurfaceHolder.Callback {
 			 *  check if target right point is outside screen
 			 *  then check if spaceship is dead
 			 */
-			if(target.getX() + target.getBitmap().getWidth()/2 < 0){
+			if(target.getX() + target.getBitmap().getWidth()/2 < 0 && target.getWorth() > 0){
 				Log.d(TAG, "target passed at edge");
 
 				targets.remove(i);
@@ -184,7 +193,19 @@ SurfaceHolder.Callback {
 				// check if dead i.e. end of game
 				if(spaceship.getHeatlh() <= 0){
 					// end game
+					Log.d(TAG, "spaceship dead");
 					isPaused = true;
+					gameOver = true;
+					
+					Sprite gameOver = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.gameover), 1000, 600);
+					drawables.add(gameOver);
+					//Canvas c = getHolder().lockCanvas();
+					//draw(c);
+					//gameOver.draw(c);
+					//getHolder().unlockCanvasAndPost(c);
+					
+					thread.setRunning(false);
+					Log.d(TAG, "thread stoped");
 				}
 				if (targets.size() <= 0) return;
 			}
@@ -202,8 +223,17 @@ SurfaceHolder.Callback {
 						projectile.getY() + projectile.getBitmap().getHeight()/2 >= target.getY() - target.getBitmap().getHeight()/2){
 
 					Log.d(TAG, "collision detected with target health = "+target.getHealth());
-					// subtract damage and remove if heath is below zero
-					if(target.isDead(projectile.getDamage())){
+
+					// check if coin if worth is -1
+					if (target.getWorth() == -1 && spaceship.getHeatlh() < heartsArray.length){
+						Sprite heart = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.heart), 600+100*spaceship.getHeatlh(), 50);
+						heartsArray[spaceship.getHeatlh()] = heart;
+						spaceship.setHeatlh(spaceship.getHeatlh() + 1);
+						drawables.add(heart);
+					}
+
+					// else ghost and subtract damage and remove if heath is below zero
+					else if(target.isDead(projectile.getDamage())){
 						Log.d(TAG, "target killed with health = "+target.getHealth());
 						updateScore(target.getWorth());
 
@@ -266,11 +296,11 @@ SurfaceHolder.Callback {
 		//scoreTextView.setText(score.toString());
 		//Log.d(TAG, "new streak at  "+streak);
 	}
-	
+
 	public int getScore(){
 		return score;
 	}
-	
+
 	public int getGhostsAdded(){
 		return ghostsAdded;
 	}
@@ -278,22 +308,27 @@ SurfaceHolder.Callback {
 	public int getStreak(){
 		return streak;
 	}
-	
+
 	public void pause(){
+		if(gameOver) return;
 		isPaused = !isPaused;
 	}
 	
+	public boolean isGameOver(){
+		return gameOver;
+	}
+
 	public void resumeGame(int score, int streak, int ghostsAdded){
 		this.score = score;
 		this.streak = streak;
 		this.ghostsAdded = ghostsAdded;
-		
+
 		Log.d(TAG, "resume w/ score "+score+" streak "+ streak+" ghosts added "+ ghostsAdded);
 
 		multiplier = streak / 3;
 		if (multiplier < 1) multiplier = 1;
 		if (multiplier > 10) multiplier = 10;
-		
+
 		((GameActivity) getContext()).setScoreTextView(score);
 		((GameActivity) getContext()).setMultiplierTextView(multiplier);
 	}

@@ -5,6 +5,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -120,6 +121,7 @@ public class GameActivity extends Activity {
 		}
 
 		editor.commit();
+		Log.d(TAG, "End On Pause...");
 
 		super.onPause();
 	}
@@ -143,8 +145,14 @@ public class GameActivity extends Activity {
 	}
 
 	public void resumeGame(View view) {
-		resumeButton.setVisibility(View.GONE);
-		newGameButton.setVisibility(View.GONE);
+		if (gamePanel.isGameOver()) {
+			Log.d(TAG, "Game Over loading main activity...");
+			startActivity(new Intent("com.example.ghosthunter.MAINACTIVITY"));
+			return;
+		}
+
+		resumeButton.setVisibility(View.INVISIBLE);
+		newGameButton.setVisibility(View.INVISIBLE);
 
 		gamePanel.resumeGame(score, streak, ghostsAdded);
 
@@ -152,8 +160,9 @@ public class GameActivity extends Activity {
 	}
 
 	public void newGame(View view) {
-		resumeButton.setVisibility(View.GONE);
-		newGameButton.setVisibility(View.GONE);
+		if (gamePanel.isGameOver()) return;
+		resumeButton.setVisibility(View.INVISIBLE);
+		newGameButton.setVisibility(View.INVISIBLE);
 
 		gamePanel.pause();
 	}
@@ -161,6 +170,18 @@ public class GameActivity extends Activity {
 	public void moveUp(View view) {
 		Log.d(TAG, "Move Up...");
 		gamePanel.moveUp();
+	}
+	
+	public void gameOver(){
+		Log.d(TAG, "gameOver()...");
+
+		//resumeButton.setVisibility(View.VISIBLE);
+		//newGameButton.setVisibility(View.VISIBLE);
+		Log.d(TAG, "buttons set visible...");
+
+		//newGameButton.setText("Game Over");
+		//resumeButton.setText("Exit");
+		
 	}
 
 
